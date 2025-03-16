@@ -6,15 +6,19 @@ import { useRouter } from "next/navigation";
 export default function Navbar() {
   const { user, logout } = useContext(AuthContext)!;
     const router = useRouter();
+    const token = localStorage.getItem("token");
   return (
     <nav className="bg-gray-800 text-white p-4 flex justify-between items-center">
       <div className="text-xl font-bold">
         <Link href="/products">E-Commerce</Link>
       </div>
       <div className="flex items-center gap-4">
-        <Link href="/orders" className="hover:text-green-400">My Orders</Link>
-        <Link href="/products" className="hover:text-green-400">Products</Link>
-        <Link href="/cart" className="hover:text-green-400">Cart</Link>
+        { token && <>
+            <Link href="/orders" className="hover:text-green-400">My Orders</Link>
+            <Link href="/products" className="hover:text-green-400">Products</Link>
+            <Link href="/cart" className="hover:text-green-400">Cart</Link>
+            </>
+        }
         {user ? (
           <>
             <span className="text-green-400">{user.data.first_name}</span>

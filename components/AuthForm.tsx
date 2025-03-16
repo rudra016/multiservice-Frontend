@@ -6,6 +6,7 @@ import { useContext } from "react";
 import { AuthContext } from "@/context/AuthContext";
 import Banner from "../public/banner.jpg";
 import Image from "next/image";
+import toast, {Toaster} from "react-hot-toast";
 interface AuthFormProps {
   type: "login" | "signup";
 }
@@ -31,16 +32,19 @@ const AuthForm = ({ type }: AuthFormProps) => {
       if (type === "signup") {
         await signupUser(formData);
         router.push("/auth/login");
+        toast.success("Account created successfully");
       } else {
         const res = await loginUser({
           email: formData.email,
           password: formData.password,
         });
         login(res.data.token);
+        toast.success("Logged in successfully");
         router.push("/products");
       }
     } catch (err) {
       setError("Failed to authenticate");
+      toast.error("Failed to authenticate");
     }
   };
 
@@ -182,6 +186,7 @@ const AuthForm = ({ type }: AuthFormProps) => {
       </div>
     </main>
   </div>
+  <Toaster />
 </section>
     </div>
   );
